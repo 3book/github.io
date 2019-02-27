@@ -1,0 +1,48 @@
+language: node_js
+node_js: stable
+
+cache:
+    apt: true
+    directories:
+        - node_modules # 缓存不经常更改的内容
+before_install:
+    - export TZ='Asia/Shanghai' # 更改时区
+    #- npm install -g hexo
+    #- npm install -g hexo-cli
+    #- npm install hexo-generator-sitemap --save  #生成sitemap.xml
+    #- npm install hexo-generator-baidu-sitemap --save  #生成baidusitemap.xml
+
+install:
+    - npm install  #安装hexo及插件
+
+script:
+    bash ./deploy.sh
+#after_script:
+#     - git clone https://${GH_REF} .deploy_git  # GH_REF是最下面配置的仓库地址
+#    - cd .deploy_git
+#    - git checkout master
+#    - cd ../
+#     - mv .deploy_git/.git/ ./public/   # 这一步之前的操作是为了保留master分支的提交记录，不然每次git init的话只有1条commit
+#    - cd ./public
+#    - git config user.name "3book"
+#    - git config user.email "1556328994@qq.com"
+#    - git add .
+#    - git commit -m "Travis CI Auto Builder at `date +"%Y-%m-%d %H:%M"`"  # 提交记录包含时间 跟上面更改时区配合
+#    - git push --force --quiet "https://${Travis_Token}@${GH_REF}" master:master  #Travis_Token是在Travis中配置环境变量的名称
+#
+branches:
+    only:
+        - hexo
+env:
+    global:
+         - ENCRYPTION_LABEL: 3f20074f9d54
+
+# configure notifications (email, IRC, campfire etc)
+# please update this section to your needs!
+# https://docs.travis-ci.com/user/notifications/
+#notifications:
+#    email:
+#        #- 1556328994@qq.com
+#    on_success: change
+#    on_failure: always
+#    #- git push --force --quiet "https://${USER}:${GH_TOKEN}@${GH_REF}" master:master
